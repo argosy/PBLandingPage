@@ -1,0 +1,12 @@
+.header-grid {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 8px;
+}
+
+@media (min-width: 768px) {
+  .header-grid {
+    grid-template-columns: 180px 1fr 250px;
+    gap: 16px;
+  }
+}
