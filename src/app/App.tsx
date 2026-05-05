@@ -82,7 +82,7 @@ export default function App() {
       </button>
     ),
     appendDots: (dots: React.ReactNode) => (
-      <div style={{ position: 'absolute', bottom: '20px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', zIndex: 50, padding: '0 16px', pointerEvents: 'none' }}>
+      <div style={{ position: 'fixed', bottom: '20px', left: 0, right: 0, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', zIndex: 50, padding: '0 16px', pointerEvents: 'none' }}>
         <motion.button
           onClick={() => sliderRef.current?.slickPrev()}
           className="backdrop-blur-md rounded-full transition-all shadow-lg flex items-center justify-center flex-shrink-0"
@@ -224,7 +224,7 @@ export default function App() {
       </motion.div>
 
       {/* Carousel Section */}
-      <div className="relative z-10" style={{ height: 'min(900px, calc(100vh - 200px))', minHeight: '260px' }}>
+      <div className="relative z-10" style={{ height: 'min(900px, calc(100vh - 200px))', minHeight: '260px', paddingBottom: '60px' }}>
         <Slider ref={sliderRef} {...settings}>
           {features.map((feature, index) => (
             <FeatureSlide key={index} {...feature} />
