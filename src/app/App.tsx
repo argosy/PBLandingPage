@@ -224,7 +224,7 @@ export default function App() {
       </motion.div>
 
       {/* Carousel Section */}
-      <div className="relative z-10" style={{ height: 'clamp(400px, 70vh, 900px)', minHeight: '400px' }}>
+      <div className="relative z-10" style={{ height: 'min(900px, calc(100vh - 200px))', minHeight: '260px' }}>
         <Slider ref={sliderRef} {...settings}>
           {features.map((feature, index) => (
             <FeatureSlide key={index} {...feature} />
