@@ -52,16 +52,16 @@ export function FeatureSlide({
 
       {/* Content */}
       <div className="relative z-10 flex-1 flex items-center justify-center overflow-hidden px-4 md:px-12 py-5">
-        <div className="container mx-auto max-w-7xl w-full">
-          <div className="grid grid-cols-[40%_60%] gap-4 items-center">
+        <div className="container mx-auto max-w-7xl w-full h-full">
+          <div className="grid grid-cols-[40%_60%] gap-4 items-stretch h-full">
             {/* Left: Feature Info */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-2 md:space-y-3 overflow-y-auto pr-2"
-              style={{ maxHeight: 'calc(100vh - 300px)' }}
+              className="space-y-2 md:space-y-3 overflow-y-auto pr-2 self-center"
+              style={{ maxHeight: '100%' }}
             >
               <div>
                 <motion.div
@@ -124,15 +124,15 @@ export function FeatureSlide({
                 whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="relative"
+                className="relative h-full"
               >
-                <div className="relative flex items-center justify-center">
+                <div className="relative flex items-center justify-center h-full">
                   <div
                     className="relative rounded-xl overflow-hidden shadow-2xl border-2"
                     style={{
                       backgroundColor: 'white',
                       borderColor: `var(--${accentColor})`,
-                      maxHeight: 'calc(100vh - 280px)',
+                      height: '100%',
                       width: title === 'Smart Filtering' ? 'auto' : '100%',
                       maxWidth: title === 'Smart Filtering' ? '400px' : '100%',
                     }}
@@ -142,9 +142,8 @@ export function FeatureSlide({
                       alt={title}
                       style={{
                         imageRendering: 'crisp-edges',
-                        width: title === 'Smart Filtering' ? 'auto' : '100%',
-                        height: 'auto',
-                        maxHeight: 'calc(100vh - 280px)',
+                        width: '100%',
+                        height: '100%',
                         objectFit: 'contain',
                       }}
                     />
