@@ -132,7 +132,7 @@ export function FeatureSlide({
                     style={{
                       backgroundColor: 'white',
                       borderColor: `var(--${accentColor})`,
-                      maxHeight: 'min(380px, calc(100vh - 300px))',
+                      maxHeight: 'calc(100vh - 280px)',
                       width: title === 'Smart Filtering' ? 'auto' : '100%',
                       maxWidth: title === 'Smart Filtering' ? '400px' : '100%',
                     }}
@@ -144,7 +144,7 @@ export function FeatureSlide({
                         imageRendering: 'crisp-edges',
                         width: title === 'Smart Filtering' ? 'auto' : '100%',
                         height: 'auto',
-                        maxHeight: 'min(380px, calc(100vh - 300px))',
+                        maxHeight: 'calc(100vh - 280px)',
                         objectFit: 'contain',
                       }}
                     />
