@@ -126,25 +126,25 @@ export function FeatureSlide({
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="relative h-full"
               >
-                <div className="relative flex items-center justify-center h-full">
+                <div className="relative flex items-center justify-center w-full h-full">
                   <div
-                    className="relative rounded-xl overflow-hidden shadow-2xl border-2"
+                    className="relative rounded-xl overflow-hidden shadow-2xl border-2 max-w-full max-h-full"
                     style={{
                       backgroundColor: 'white',
                       borderColor: `var(--${accentColor})`,
-                      height: '100%',
-                      width: title === 'Smart Filtering' ? 'auto' : '100%',
-                      maxWidth: title === 'Smart Filtering' ? '400px' : '100%',
+                      ...(title === 'Smart Filtering' && { maxWidth: '400px' }),
                     }}
                   >
                     <ImageWithFallback
                       src={currentScreenshot}
                       alt={title}
                       style={{
+                        display: 'block',
                         imageRendering: 'crisp-edges',
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'contain',
+                        width: 'auto',
+                        height: 'auto',
+                        maxWidth: '100%',
+                        maxHeight: '100%',
                       }}
                     />
                   </div>
