@@ -1,5 +1,4 @@
-import { useRef } from 'react';
-import { createPortal } from 'react-dom';
+import { useRef, useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -18,6 +17,7 @@ import classAliasesImg from '../imports/Class_Aliases-1.png';
 
 export default function App() {
   const sliderRef = useRef<Slider>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const features = [
     {
@@ -60,7 +60,7 @@ export default function App() {
   ];
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 800,
     slidesToShow: 1,
@@ -71,66 +71,69 @@ export default function App() {
     arrows: false,
     fade: true,
     cssEase: 'cubic-bezier(0.87, 0, 0.13, 1)',
-    customPaging: (i: number) => (
-      <button
-        style={{
-          width: '12px',
-          height: '12px',
-          borderRadius: '50%',
-        }}
-      >
-        {i + 1}
-      </button>
-    ),
-    appendDots: (dots: React.ReactNode) => createPortal(
-      <div style={{ position: 'fixed', bottom: '20px', left: 0, right: 0, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', zIndex: 9999, padding: '0 16px', pointerEvents: 'none' }}>
-        <motion.button
-          onClick={() => sliderRef.current?.slickPrev()}
-          className="backdrop-blur-md rounded-full transition-all shadow-lg flex items-center justify-center flex-shrink-0"
-          style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-            borderWidth: '2px',
-            borderStyle: 'solid',
-            borderColor: '#D1D5DB',
-            color: '#A3FF12',
-            width: '28px',
-            height: '28px',
-            padding: '4px',
-            minWidth: '28px',
-            pointerEvents: 'auto'
-          }}
-          whileHover={{ scale: 1.1, borderColor: '#A3FF12' }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <ChevronLeft className="w-3 h-3" />
-        </motion.button>
-
-        <ul style={{ display: 'flex', gap: '6px', margin: 0, padding: 0, listStyle: 'none', alignItems: 'center', pointerEvents: 'auto' }}>{dots}</ul>
-
-        <motion.button
-          onClick={() => sliderRef.current?.slickNext()}
-          className="backdrop-blur-md rounded-full transition-all shadow-lg flex items-center justify-center flex-shrink-0"
-          style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-            borderWidth: '2px',
-            borderStyle: 'solid',
-            borderColor: '#D1D5DB',
-            color: '#A3FF12',
-            width: '28px',
-            height: '28px',
-            padding: '4px',
-            minWidth: '28px',
-            pointerEvents: 'auto'
-          }}
-          whileHover={{ scale: 1.1, borderColor: '#A3FF12' }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <ChevronRight className="w-3 h-3" />
-        </motion.button>
-      </div>,
-      document.body
-    ),
+    beforeChange: (_: number, next: number) => setCurrentSlide(next),
   };
+
+  // Nav strip rendered OUTSIDE of slick so its position: fixed isn't affected
+  // by anything slick or framer-motion does to its DOM tree. Drives navigation
+  // through sliderRef and reflects current slide via the beforeChange callback.
+  const buttonStyle = {
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderWidth: '2px',
+    borderStyle: 'solid',
+    borderColor: '#D1D5DB',
+    color: '#A3FF12',
+    width: '28px',
+    height: '28px',
+    padding: '4px',
+    minWidth: '28px',
+    pointerEvents: 'auto' as const,
+  };
+  const navControls = (
+    <div style={{ position: 'fixed', bottom: '20px', left: 0, right: 0, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', zIndex: 9999, padding: '0 16px', pointerEvents: 'none' }}>
+      <motion.button
+        onClick={() => sliderRef.current?.slickPrev()}
+        className="backdrop-blur-md rounded-full transition-all shadow-lg flex items-center justify-center flex-shrink-0"
+        style={buttonStyle}
+        whileHover={{ scale: 1.1, borderColor: '#A3FF12' }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <ChevronLeft className="w-3 h-3" />
+      </motion.button>
+
+      <ul style={{ display: 'flex', gap: '6px', margin: 0, padding: 0, listStyle: 'none', alignItems: 'center', pointerEvents: 'auto' }}>
+        {features.map((_, i) => (
+          <li key={i}>
+            <button
+              onClick={() => sliderRef.current?.slickGoTo(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              style={{
+                width: '12px',
+                height: '12px',
+                borderRadius: '50%',
+                border: 'none',
+                padding: 0,
+                cursor: 'pointer',
+                backgroundColor: i === currentSlide ? '#A3FF12' : 'rgba(255, 255, 255, 0.5)',
+                boxShadow: i === currentSlide ? '0 0 0 2px rgba(255,255,255,0.9)' : 'none',
+                transition: 'background-color 0.2s, box-shadow 0.2s',
+              }}
+            />
+          </li>
+        ))}
+      </ul>
+
+      <motion.button
+        onClick={() => sliderRef.current?.slickNext()}
+        className="backdrop-blur-md rounded-full transition-all shadow-lg flex items-center justify-center flex-shrink-0"
+        style={buttonStyle}
+        whileHover={{ scale: 1.1, borderColor: '#A3FF12' }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <ChevronRight className="w-3 h-3" />
+      </motion.button>
+    </div>
+  );
 
   return (
     <div className="min-h-screen text-gray-900 overflow-hidden relative" style={{ backgroundColor: '#E0F2FE' }}>
@@ -233,6 +236,9 @@ export default function App() {
           ))}
         </Slider>
       </div>
+
+      {/* Carousel navigation strip — fixed to viewport bottom, outside slick */}
+      {navControls}
 
       {/* Animated Background Elements */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
