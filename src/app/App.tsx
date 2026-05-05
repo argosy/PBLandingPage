@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { createPortal } from 'react-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -81,8 +82,8 @@ export default function App() {
         {i + 1}
       </button>
     ),
-    appendDots: (dots: React.ReactNode) => (
-      <div style={{ position: 'fixed', bottom: '20px', left: 0, right: 0, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', zIndex: 50, padding: '0 16px', pointerEvents: 'none' }}>
+    appendDots: (dots: React.ReactNode) => createPortal(
+      <div style={{ position: 'fixed', bottom: '20px', left: 0, right: 0, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', zIndex: 9999, padding: '0 16px', pointerEvents: 'none' }}>
         <motion.button
           onClick={() => sliderRef.current?.slickPrev()}
           className="backdrop-blur-md rounded-full transition-all shadow-lg flex items-center justify-center flex-shrink-0"
@@ -126,7 +127,8 @@ export default function App() {
         >
           <ChevronRight className="w-3 h-3" />
         </motion.button>
-      </div>
+      </div>,
+      document.body
     ),
   };
 
