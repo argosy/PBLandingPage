@@ -128,11 +128,17 @@ export function FeatureSlide({
               >
                 <div className="relative flex items-center justify-center w-full h-full">
                   <div
-                    className="relative rounded-xl overflow-hidden shadow-2xl border-2 max-w-full max-h-full"
+                    className="relative rounded-xl overflow-hidden shadow-2xl border-2"
                     style={{
                       backgroundColor: 'white',
                       borderColor: `var(--${accentColor})`,
-                      ...(title === 'Smart Filtering' && { maxWidth: '400px' }),
+                      // Fixed aspect ratio so the card has the SAME dimensions
+                      // on every slide and across in-slide image changes — only
+                      // the image content inside (via objectFit: contain) varies.
+                      width: '100%',
+                      maxWidth: title === 'Smart Filtering' ? '400px' : '100%',
+                      aspectRatio: '16 / 10',
+                      maxHeight: '100%',
                     }}
                   >
                     <ImageWithFallback
@@ -141,10 +147,9 @@ export function FeatureSlide({
                       style={{
                         display: 'block',
                         imageRendering: 'crisp-edges',
-                        width: 'auto',
-                        height: 'auto',
-                        maxWidth: '100%',
-                        maxHeight: '100%',
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
                       }}
                     />
                   </div>
