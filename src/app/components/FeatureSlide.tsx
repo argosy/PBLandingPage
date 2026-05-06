@@ -136,7 +136,7 @@ export function FeatureSlide({
                       // on every slide and across in-slide image changes — only
                       // the image content inside (via objectFit: contain) varies.
                       width: '100%',
-                      maxWidth: title === 'Smart Filtering' ? '400px' : '100%',
+                      maxWidth: '100%',
                       aspectRatio: '16 / 10',
                       maxHeight: '100%',
                     }}
